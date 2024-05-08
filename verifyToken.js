@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 
 const verifyToken = (req, res, next) => {
     const token = req.cookies.token;
+    console.log(token)
     if (!token) {
         return res.status(401).json("You are not authenticated!");
     }
@@ -18,7 +19,7 @@ const verifyToken = (req, res, next) => {
         
         // Assign the user ID from the token to req.userId
         req.userId = data._id;
-
+        console.log("passed")
         // Proceed to the next middleware or route handler
         next();
     });
