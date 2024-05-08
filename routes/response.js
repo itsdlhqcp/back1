@@ -6,7 +6,7 @@ const Response = require('../models/Response');
 
 
 //CREATE
-router.post("/create",async(req,res)=>{
+router.post("/create",verifyToken,async(req,res)=>{
   try{
      const newResponse=new Response(req.body)
      const savedResponse=await newResponse.save()
@@ -19,7 +19,7 @@ router.post("/create",async(req,res)=>{
 
 
 //UPDATE
-router.put("/:id",async (req,res)=>{
+router.put("/:id",verifyToken,async (req,res)=>{
     try{
        
         const updatedResponse=await Response.findByIdAndUpdate(req.params.id,{$set:req.body},{new:true})
