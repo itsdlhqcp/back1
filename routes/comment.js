@@ -9,7 +9,7 @@ const verifyToken = require('../verifyToken');
 
 
 //CREATE
-router.post("/create",verifyToken,async(req,res)=>{
+router.post("/create",async(req,res)=>{
   try{
      const newComment=new Comment(req.body)
      const savedComment=await newComment.save()
@@ -22,7 +22,7 @@ router.post("/create",verifyToken,async(req,res)=>{
 
 
 //UPDATE
-router.put("/:id",verifyToken,async (req,res)=>{
+router.put("/:id",async (req,res)=>{
     try{
        
         const updatedComment=await Comment.findByIdAndUpdate(req.params.id,{$set:req.body},{new:true})
