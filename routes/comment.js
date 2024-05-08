@@ -8,17 +8,25 @@ const Comment=require('../models/Comment');
 const verifyToken = require('../verifyToken');
 
 
-//CREATE
-router.post("/create",verifyToken,async(req,res)=>{
-  try{
-     const newComment=new Comment(req.body)
-     const savedComment=await newComment.save()
-     res.status(200).json(savedComment)
-  }
-  catch(err){
-    res.status(200).json(err)
-  }
-})
+// CREATE
+router.post("/create", verifyToken, async (req, res) => {
+    try {
+        // Check if the user is authorized to create a comment
+        const { userId } = req;
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(401).json("User not found!");
+        }
+        // Only allow authorized users to create comments
+        const newComment = new Comment(req.body);
+        newComment.author = userId; // Assign the comment author
+        const savedComment = await newComment.save();
+        res.status(200).json(savedComment);
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
+
 
 
 //UPDATE
